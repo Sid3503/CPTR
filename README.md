@@ -1,6 +1,6 @@
 # Image Captioning Transformer 📸✨
 
-Welcome to the **Image Captioning Transformer** project! This repository contains a deep learning model that generates captions for images using a transformer architecture. This README provides a comprehensive overview of the model, its architecture, key concepts, and practical examples to help you understand how to use it effectively.
+A comprehensive overview of the model, its architecture, key concepts, and practical examples to help you understand how to use it effectively.
 
 ## Table of Contents
 
