@@ -28,14 +28,32 @@ The architecture consists of two main components:
 
 ```mermaid
 flowchart TD
-    A[Input Image] --> B[Patch Extraction]
-    B --> C[Feature Extraction]
-    C --> D[Positional Encoding]
-    D --> E[Encoder Blocks]
-    E --> F[Encoded Features]
-    F --> G[Decoder Input]
-    G --> H[Caption Generation]
-    H --> I[Output Caption]
+    subgraph Encoder[ViT Encoder]
+        A[Input Image 3x384x384] --> B[Patch Partition]
+        B --> C["Flattened Patches (N×768)"]
+        C --> D[Linear Projection]
+        D --> E[Patch + Position Embeddings]
+        E --> F[Transformer Encoder Blocks]
+        F -->|Multi-Head Self-Attention| G[LayerNorm]
+        G --> H[MLP]
+        H --> I[Encoded Features 576x768]
+    end
+
+    subgraph Decoder[Transformer Decoder]
+        J[Caption Tokens] --> K[Token Embedding]
+        K --> L[Position Embedding]
+        L --> M[Transformer Decoder Blocks]
+        M -->|Masked Multi-Head Attention| N[LayerNorm]
+        N -->|Encoder-Decoder Attention| O[Image Features]
+        O --> P[MLP]
+        P --> Q[Next Token Prediction]
+    end
+
+    I -->|Cross-Attention| O
+    Q --> R[Output Caption]
+
+    style Encoder fill:#f9f9f9,stroke:#3498db
+    style Decoder fill:#f9f9f9,stroke:#e74c3c
 ```
 
 ### Encoder
